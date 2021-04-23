@@ -22,6 +22,7 @@ export function PageOne() {
     const top100Films = data
     console.log(data)
     return (
+
         <Autocomplete
             id="combo-box-demo"
             onSelect={handleSelect}
