@@ -3,56 +3,92 @@ import style from "./PageTwo.module.css";
 
 export const Page3 = () => {
     const [state, setState] = useState<initStateType>({
-        name: '',
-        street_address: '',
-        city: '',
-        state: '',
-        zip_code: '',
-        googleMapLink: ''
+        street: "",
+        home: "", district: "", locality: "", area: "", region: "", country: "",
     })
 // @ts-ignore
-    let autocomplete=null
-    let ref = useRef();
+    let autocomplete = null
+    let ref = useRef(null);
 
     const node = ref.current;
-    useEffect(()=> {debugger
+    useEffect(() => {
+        debugger
 
         // @ts-ignore
         autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'), {})
 
         autocomplete.addListener("place_changed", handlePlaceSelect)
         debugger
-    },[])
+    }, [])
 
 
-    const handleChange=(event:any)=> {
-        // @ts-ignore
+    const handleChange = (event: any) => {
+        /* // @ts-ignore*/
         setState({[event.target.name]: event.target.value})
     }
 
-    const handleSubmit=(event:any)=> {
+    const handleSubmit = (event: any) => {
         event.preventDefault()
         /* this.props.dispatch(addParlor(this.state))*/
         /*  clearForm()*/
     }
 
-    const handlePlaceSelect=()=> { debugger
+    const handlePlaceSelect = () => {
+        debugger
         // @ts-ignore
-        let addressObject =  autocomplete.getPlace()
+        let addressObject = autocomplete.getPlace()
         let address = addressObject.address_components
         debugger
-        setState({
-            name: addressObject.name,
-            street_address: `${address[0].long_name} ${address[1].long_name}`,
-            /* city: address[4].long_name,
-             state: address[6].short_name,
-             zip_code: address[8].short_name,
-             googleMapLink: addressObject.url*/
-        })
+        for (const component of addressObject.address_components as google.maps.GeocoderAddressComponent[]) {
+            // @ts-ignore remove once typings fixed
+            const componentType = component.types[0];
+
+            switch (componentType) {
+                case "street_number": {
+                    setState({home: component.long_name})
+                    break;
+                }
+
+                case "route": {
+                    setState({street: component.short_name})
+                    break;
+                }
+
+                case "sublocality_level_1": {
+                    setState({district: component.long_name})
+                    break;
+                }
+
+                case "locality": {
+                    setState({locality: component.long_name})
+                    break;
+                }
+
+                case "administrative_area_level_2": {
+                    setState({area: component.long_name})
+                    break;
+                }
+
+                case "administrative_area_level_1": {
+                    setState({region: component.long_name})
+                    break;
+                }
+
+                case "country": {
+                    setState({country: component.long_name})
+                    break;
+                }
+
+
+            }
+
+
+        }
+
     }
 
 
-    return(
+    return (
         <div>33333333333333333333333333333333333 FUNCTIONAL COMPONENT
             <h1>Add New Adress</h1>
             <form onSubmit={handleSubmit}>
@@ -61,46 +97,63 @@ export const Page3 = () => {
                        className="input-field"
                        type="text"/>
                 <input
-                    name={"name"}
-                    value={state.name}
-                    placeholder={"Name"}
+                    name={"street"}
+                    value={state.street}
+                    placeholder={"Улица"}
                     onChange={handleChange}
                 />
                 <input
                     name={"street_address"}
-                    value={state.street_address}
-                    placeholder={"Street Address"}
+                    value={state.home}
+                    placeholder={"дом"}
                     onChange={handleChange}
                 />
                 <input
-                    name={"city"}
-                    value={state.city}
-                    placeholder={"City"}
+                    name={"district"}
+                    value={state.district}
+                    placeholder={"Район"}
                     onChange={handleChange}
                 />
                 <input
-                    name={"state"}
-                    value={state.state}
-                    placeholder={"State"}
+                    name={"locality"}
+                    value={state.locality}
+                    placeholder={"Город"}
                     onChange={handleChange}
                 />
                 <input
-                    name={"zip_code"}
-                    value={state.zip_code}
-                    placeholder={"Zipcode"}
+                    name={"area"}
+                    value={state.area}
+                    placeholder={"Район"}
                     onChange={handleChange}
                 />
+                <input
+                    name={"region"}
+                    value={state.region}
+                    placeholder={"Область"}
+                    onChange={handleChange}
+                />
+
+                <input
+                    name={"country"}
+                    value={state.country}
+                    placeholder={"Стран"}
+                    onChange={handleChange}
+                />
+
+
                 <button onSubmit={handleSubmit}>Submit</button>
             </form>
         </div>
     )
 }
 
-type initStateType={
-    name?: string,
-    street_address?: string,
-    city?: string,
-    state?: string,
-    zip_code?: string,
-    googleMapLink?: string
+type initStateType = {
+    street?: string,
+    home?: string,
+    district?: string
+    locality?: string
+    area?: string
+    region?: string
+    country?: string
+
 }
