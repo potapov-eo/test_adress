@@ -1,24 +1,22 @@
-import React, {createRef, useEffect, useRef, useState} from 'react'
-import style from "./PageTwo.module.css";
+import React, {useEffect, useRef, useState} from 'react'
+import {TextField} from "@material-ui/core";
+import {InputForm} from "../../components/InputAddressForm/InputAddressForm";
 
 export const Page3 = () => {
+    const [isReduct, setisReduct] = useState<boolean>(false)
     const [state, setState] = useState<initStateType>({
-        street: "",
-        home: "", district: "", locality: "", area: "", region: "", country: "",
+        street: "", home: "", district: "", locality: "", area: "", region: "", country: "",
     })
 // @ts-ignore
     let autocomplete = null
-    let ref = useRef(null);
 
-    const node = ref.current;
+   /* let ref = useRef(null);
+    const node = ref.current;*/
+
     useEffect(() => {
-        debugger
-
-        // @ts-ignore
+          // @ts-ignore
         autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'), {})
-
         autocomplete.addListener("place_changed", handlePlaceSelect)
-        debugger
     }, [])
 
 
@@ -34,48 +32,56 @@ export const Page3 = () => {
     }
 
     const handlePlaceSelect = () => {
-        debugger
+
         // @ts-ignore
         let addressObject = autocomplete.getPlace()
         let address = addressObject.address_components
-        debugger
+       let  stateWithAddress={ street: "", home: "", district: "", locality: "", area: "", region: "", country: "",}
         for (const component of addressObject.address_components as google.maps.GeocoderAddressComponent[]) {
             // @ts-ignore remove once typings fixed
-            const componentType = component.types[0];
 
+            const componentType = component.types[0];
+debugger
             switch (componentType) {
                 case "street_number": {
-                    setState({home: component.long_name})
+                   /* setState({home: component.long_name})*/
+                    stateWithAddress.home = component.long_name
                     break;
                 }
 
                 case "route": {
-                    setState({street: component.short_name})
+                  /*  setState({ street: component.long_name})*/
+                    stateWithAddress.street = component.long_name
                     break;
                 }
 
                 case "sublocality_level_1": {
-                    setState({district: component.long_name})
+                    /*setState({ district: component.long_name})*/
+                    stateWithAddress.district = component.long_name
                     break;
                 }
 
                 case "locality": {
-                    setState({locality: component.long_name})
+                    /*setState({ locality: component.long_name})*/
+                    stateWithAddress.locality = component.long_name
                     break;
                 }
 
                 case "administrative_area_level_2": {
-                    setState({area: component.long_name})
+                   /* setState({ area: component.long_name})*/
+                    stateWithAddress.area = component.long_name
                     break;
                 }
 
                 case "administrative_area_level_1": {
-                    setState({region: component.long_name})
+                    /*setState({region: component.long_name})*/
+                    stateWithAddress.region = component.long_name
                     break;
                 }
 
                 case "country": {
-                    setState({country: component.long_name})
+                    /*setState({ country: component.long_name})*/
+                    stateWithAddress.country = component.long_name
                     break;
                 }
 
@@ -84,15 +90,19 @@ export const Page3 = () => {
 
 
         }
-
+        setState(stateWithAddress)
     }
-
-
+  const  handleRedact = ()=>{setisReduct(!isReduct)}
+   const state1 ={
+        street: "11", home: "11", district: "11", locality: "11", area: "11", region: "11", country: "11",
+    }
+    console.log(state)
     return (
         <div>33333333333333333333333333333333333 FUNCTIONAL COMPONENT
             <h1>Add New Adress</h1>
             <form onSubmit={handleSubmit}>
-                <input id="autocomplete"
+                <TextField  id="autocomplete"
+                            variant="outlined"
                     /*ref={ref}*/
                        className="input-field"
                        type="text"/>
@@ -143,11 +153,13 @@ export const Page3 = () => {
 
                 <button onSubmit={handleSubmit}>Submit</button>
             </form>
+            <div><button onClick={handleRedact}>редактировать</button></div>
+            {isReduct && <InputForm state={state}/>}
         </div>
     )
 }
 
-type initStateType = {
+export type initStateType = {
     street?: string,
     home?: string,
     district?: string
