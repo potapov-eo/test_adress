@@ -1,33 +1,33 @@
 import React from 'react'
 import {useFormik} from "formik";
 import {TextField} from "@material-ui/core";
-import {initStateType} from "../../pages/Page_3/Page3";
-type InputFormPropsType ={
-    state:initStateType
-}
-export const InputForm = (props:InputFormPropsType) => {
+import {initStateType} from "../../pages/AutocompleteWSGoogleFunc/Page3";
 
+type InputFormPropsType = {
+    state: initStateType
+}
+export const InputForm = (props: InputFormPropsType) => {
 
     const formik = useFormik({
         initialValues: props.state,
 
         onSubmit: values => {
             formik.resetForm()
+            console.log(values)
         }
     })
     return (
         <div>INPUT FORM
 
             <form onSubmit={formik.handleSubmit}>
-                <div>
-                    <TextField
-                        name={"street"}
-                        value={formik.values.street}
-                        placeholder={"Улица"}
-                        onChange={formik.handleChange}
-                    /></div>
                 <div><TextField
-                    name={"street_address"}
+                    name={"street"}
+                    value={formik.values.street}
+                    placeholder={"Улица"}
+                    onChange={formik.handleChange}
+                /></div>
+                <div><TextField
+                    name={"home"}
                     value={formik.values.home}
                     placeholder={"дом"}
                     onChange={formik.handleChange}
@@ -65,10 +65,9 @@ export const InputForm = (props:InputFormPropsType) => {
                 /></div>
 
 
-
-    <button type="submit">Submit</button>
-</form>
-</div>
-)
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    )
 }
 

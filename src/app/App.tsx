@@ -1,16 +1,10 @@
 import React from 'react';
 import './App.css';
 import {BrowserRouter as Router, NavLink} from "react-router-dom"
-import {useSelector} from "react-redux";
-import {selectorError, selectorStatus} from "../store/app-reduser/app-selector";
 import {PATH, Routes} from "../routes/Routes";
 
 
-
 function App() {
-
-    const status = useSelector(selectorStatus)
-    const error = useSelector(selectorError)
 
 
     return (<Router>
@@ -24,7 +18,7 @@ function App() {
                 <span>
                 <NavLink to={PATH.PAGE_TREE}>33333</NavLink>
             </span>
-              {/*  {error !== null && <ErrorSnackBar errorMessage={error}/>}
+                {/*  {error !== null && <ErrorSnackBar errorMessage={error}/>}
                 {status === 'loading' && <Preloader/>}*/}
                 <Routes/>
             </div>

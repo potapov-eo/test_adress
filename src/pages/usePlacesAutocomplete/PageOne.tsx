@@ -8,7 +8,7 @@ export function PageOne() {
     const {
         ready,
         value,
-        suggestions: {status, data},
+        suggestions: { data},
         setValue,
     } = usePlacesAutocomplete();
 

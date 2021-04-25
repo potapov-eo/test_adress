@@ -1,8 +1,8 @@
 import React from 'react'
 import {Redirect, Route, Switch} from "react-router-dom";
-import {PageTwo} from "../pages/PageTwo/PageTwo";
-import {PageOne} from "../pages/PageOne/PageOne";
-import {Page3} from "../pages/Page_3/Page3";
+import {PageTwo} from "../pages/AutocompleteWSGoogleClass/PageTwo";
+import {PageOne} from "../pages/usePlacesAutocomplete/PageOne";
+import {Page3} from "../pages/AutocompleteWSGoogleFunc/Page3";
 
 
 export const PATH = {
